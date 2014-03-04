@@ -27,32 +27,32 @@
             <input type="text" id="student_name">
             <button id="add_student">Sort</button>
         </div>
-        <div class="house col-md-2 gryffindor">
+        <div class="house col-md-2 ">
             Gryffindor
-            <ul class="house_list">
+            <ul class="gryffindor">
             </ul>
         </div>
-        <div class="house col-md-2 hufflepuff">
+        <div class="house col-md-2">
             Hufflepuff
-            <ul class="house_list">
+            <ul class="hufflepuff">
 
             </ul>
         </div>
-        <div class="house col-md-2 ravenclaw">
+        <div class="house col-md-2">
             Ravenclaw
-            <ul class="house_list">
+            <ul class="ravenclaw">
 
             </ul>
         </div>
-        <div class="house col-md-2 slytherin">
+        <div class="house col-md-2">
             Slytherin
-            <ul class="house_list">
+            <ul class="slytherin">
 
             </ul>
         </div>
-        <div class="house col-md-2 dumbledore">
+        <div class="house col-md-2">
             Dumbledore's Army
-            <ul class="house_list">
+            <ul class="dumbledore">
 
             </ul>
         </div>
@@ -94,12 +94,12 @@
             };
 
             houses[randHouse].push(studentNameInput);
-            console.log(houses);
+
             var htmlhouse = document.getElementsByClassName(randHouse);
             var newListItem = document.createElement('li');
             var listItemText = document.createTextNode(studentNameInput);
             newListItem.appendChild(listItemText);
-            listContainer.appendChild(newListItem);
+            htmlhouse[0].appendChild(newListItem);
 
             studentCount -= 1;
             count.innerHTML = studentCount;           
@@ -112,31 +112,6 @@
             var randomHouse = Object.keys(houses)[randomHouseIndex];
             return randomHouse;
         }
-
-
-
-        // //check if house full
-        // function checkHouse(house_name){
-        //     var listItems = document.getElementsByClassName(house_name);
-        //     var listItemsCount = listItems.length;
-
-        //     while (listItemsCount == fullHouse){
-        //         getRandomHouse();
-        //     }
-        //     return getRandomHouse; 
-        // }
-
-        // function assignStudent(checkHouse, studentNameInput){
-        //     var listContainer = getRandomHouse();
-        //     var newListItem = document.createElement('li');
-        //     var listItemText = document.createTextNode(studentNameInput);
-        //     newListItem.appendChild(listItemText);
-        //     listContainer.appendChild(newListItem);
-
-        //     studentCount -= 1;
-        //     count.innerHTML = studentCount;           
-        // }
-
     </script>
   </body>
 </html>
