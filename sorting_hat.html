@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bootstrap 101 Template</title>
+    <title>Sorting Hat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
@@ -17,25 +17,109 @@
     <h1>Sorting Hat</h1>
     
     <div class="container">
-        <div class="house col-md-2">
+        <!-- FORM -->
+        <div class="form">
+            <input type="number" id="student_count">
+            <button id="set_student_count">Set Student Count</button>
+            <div id="count"></div>
+        </div>
+        <!--NAME FORM-->
+        <div class="form">
+            <input type="text" id="student_name">
+            <button id="add_student">Sort</button>
+        </div>
+
+        <div class="house col-md-2 gryffindor">
             Gryffindor
+            <ul class="house_list">
+            </ul>
         </div>
-        <div class="house col-md-2">
+        <div class="house col-md-2 hufflepuff">
             Hufflepuff
+            <ul class="house_list">
+
+            </ul>
         </div>
-        <div class="house col-md-2">
+        <div class="house col-md-2 ravenclaw">
             Ravenclaw
+            <ul class="house_list">
+
+            </ul>
         </div>
-        <div class="house col-md-2">
+        <div class="house col-md-2 slytherin">
             Slytherin
+            <ul class="house_list">
+
+            </ul>
         </div>
-        <div class="house col-md-2">
+        <div class="house col-md-2 dumbledore">
             Dumbledore's Army
+            <ul class="house_list">
+
+            </ul>
         </div>
+
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    var studentCount = 0;
+    var count_button = document.getElementById("set_student_count");
+    var fullHouse = 0;
+    count_button.addEventListener('click', function(){
+        //get a variable that points to the div that has the count in it by using document.getElementById("count")
+        var count = document.getElementById("count");
+        //get value of the input box (document.getElementById("student_count").value) - save it to a variable. If it's blank, set it to 0.
+        var studentCountInput = document.getElementById("student_count").value;
+        // if (studentCountInput == ''){
+        //     studentCountInput.value = 0;
+        // };   
+        // add the value to studentCount, the global variable we set up earlier. ( studentCount += some value
+        studentCount = studentCountInput;
+        fullHouse = (studentCount / house.length);
+
+        //write the new value of studentCount to the div we found earlier. Use the .innerHTML property of the #student_count div
+        count.innerHTML = studentCount;
+        //reset the input box( by changing the .value attribute to 0
+        studentCountInput.value = 0;
+    });
+
+    var add_student_button = document.getElementById("add_student");
+    var house = document.getElementsByClassName("house_list");
+
+    add_student_button.addEventListener('click', function(){
+        //this is a student name string
+        var studentNameInput = document.getElementById("student_name").value;
+
+        //Get random house function
+        function getRandomHouse(){
+            //this is a random number
+            var randomHouseIndex = Math.floor(Math.random() * house.length);
+            //this returns a <ul> element that will contain house student list of <li>
+            var randomHouse = house[randomHouseIndex];
+            //check if house full
+            var listItems = randomHouse.getElementsByTagName('li');
+            var listItemsCount = listItems.length;
+
+            if (listItemsCount < fullHouse){
+                return randomHouse;
+            }
+            else {
+                getRandomHouse();  
+            }
+        }
+        //if not full append student name to student list ul
+        var listContainer = getRandomHouse();
+        var newListItem = document.createElement('li');
+        var listItemText = document.createTextNode(studentNameInput);
+        newListItem.appendChild(listItemText);
+        listContainer.appendChild(newListItem);
+
+        studentCount -= 1;
+        count.innerHTML = studentCount;
+    })
+    </script>
   </body>
 </html>
