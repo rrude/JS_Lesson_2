@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Bootstrap 101 Template</title>
@@ -6,7 +7,12 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <style>
+    /*the color values are rgb with the last value being transparency*/
+        .timerDone { background-color:rgba(248, 13, 41, .3); }
+    </style>
+
+    <!-- HTML5 Shsim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -15,7 +21,14 @@
   </head>
   <body>
     <h1>Laundry Timers</h1>
-    
+
+    <div class="forms" style="margin:30px 0">
+        <input type="text" id="washerLoadTime">
+            <input type="submit" class="washerButton" value="New Washer Load">
+        <input type="text" id="dryerLoadTime">
+            <input type="submit" class="dryerButton" value="New Dryer Load">
+    </div>
+
     <table class="table" id="table">
         <tr>
             <th>Load Type</th>
@@ -42,5 +55,95 @@
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script>
+        // var timer = [ 
+        //     { type: "washer", timer: "9:11" },
+        //     { type: "washer", timer: "12:33" },
+        //     { type: "dryer", timer: "54:44" },
+        //     { type: "dryer", timer: "0:03" }
+        // ];
+
+        function decrementCounters(){
+            // Setting variable to all td classes with name of 'timer' from HTML
+            var allTimers = document.getElementsByClassName("timer");
+
+            // For loop to iterate through array returned from allTimers where 'i' reps 1 each timer
+            for (var i = 0; i < allTimers.length; i++){
+                // allTimers[i] gives us the element, and .innerHTML gets us the value as a string
+                var time = allTimers[i].innerHTML;
+                // Converts from string to seconds
+                var totalSeconds = (parseInt(time.split(":")[0]) * 60) + (parseInt(time.split(":")[1]));
+
+                // Stops time decrement when timer gets to 0:00
+                if (totalSeconds > 0){
+                    // Decrements seconds by 1
+                    totalSeconds -= 1;
+                    // Converting seconds back to minutes
+                    var minutes = Math.floor(totalSeconds / 60);
+                    // Returns remainder of seconds after minutes converted
+                    var seconds = totalSeconds % 60;
+
+                    // Adds extra 0 to seconds if single digit
+                    if (seconds < 10){
+                        seconds = "0" + seconds;
+                    };
+                   
+                    // Concatenates minutes and seconds into m:ss
+                    allTimers[i].innerHTML = minutes + ":" + seconds;
+                };
+            }
+        };
+
+        function stopEndedCounters(){
+            var allTimers = document.getElementsByClassName("timer");
+
+            for (var i in allTimers){
+                var time = allTimers[i].innerHTML;
+                if (time == "0:00"){
+                    allTimers[i].parentElement.className = "timerDone";
+                }
+            }
+        }
+
+        setInterval(function(){
+            decrementCounters();
+            stopEndedCounters();
+        },1000)
+
+
+        var washerButton = document.getElementsByClassName('washerButton')[0];
+            washerButton.addEventListener('click', function(){
+            var the_table = document.getElementsByTagName('tbody')[0];
+            var new_row = document.createElement('tr');
+            var columnLoadType = document.createElement('td');
+            var columnTime = document.createElement('td');
+            columnTime.innerHTML = document.getElementById("washerLoadTime").value;
+            columnLoadType.innerHTML = "Washing Machine";
+            columnTime.className = "timer";
+            columnLoadType.className = "type";
+            new_row.appendChild(columnLoadType);
+            new_row.appendChild(columnTime);
+            the_table.appendChild(new_row);
+
+            });
+
+        var dryerButton = document.getElementsByClassName('dryerButton')[0];
+            dryerButton.addEventListener('click', function(){
+            var the_table = document.getElementsByTagName('tbody')[0];
+            var new_row = document.createElement('tr');
+            var columnLoadType = document.createElement('td');
+            var columnTime = document.createElement('td');
+            columnTime.innerHTML = document.getElementById("dryerLoadTime").value;
+            columnLoadType.innerHTML = "Dryer";
+            columnTime.className = "timer";
+            columnLoadType.className = "type";
+            new_row.appendChild(columnLoadType);
+            new_row.appendChild(columnTime);
+            the_table.appendChild(new_row);
+
+            });
+        
+    </script>
   </body>
 </html>
